@@ -7,3 +7,7 @@ kafka-console-consumer.sh --bootstrap-server <broker_address>:<port> --topic <to
 kafka-console-producer.sh --broker-list localhost:9092 --topic users1 --property "parse.key=true" --property "key.separator=:"
 
 spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0 --master spark://spark-master:7077 spark-apps/stream_from_kafka.py
+spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0,com.datastax.spark:spark-cassandra-connector_2.12:3.4.1  --master spark://spark-master:7077 spark-apps/stream_from_kafka_to_cass.py
+# Scala version: 2.12.15
+# Spark version: 3.5.0
+# Kafka version: 0.10 > 
