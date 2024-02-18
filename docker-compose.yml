@@ -65,3 +65,16 @@ services:
       - HEAP_NEWSIZE=100M
       - CASSANDRA_USERNAME=cassandra
       - CASSANDRA_PASSWORD=cassandra
+
+  postgres:
+    image: postgres:latest
+    platform: linux/arm64/v8
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db/postgres:/var/lib/pgsql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
