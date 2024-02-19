@@ -2,6 +2,7 @@
 import pandas as pd
 import json
 import uuid 
+import time
 from kafka import KafkaProducer
 
 spotify_df = None
@@ -37,7 +38,8 @@ def format_data(song, user):
         "user_id": str(user['id'].values[0]),
         "track_id": str(song.index[0]),
         "track_name": song['track_name'].values[0],
-        "artist_name": song['artist_name'].values[0]
+        "artist_name": song['artist_name'].values[0],
+        "timestamp": int(time.time() * 1000)  # Current time in milliseconds
     }
 
 def send_to_kafka(topic, data):

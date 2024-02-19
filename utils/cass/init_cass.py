@@ -10,14 +10,15 @@ def create_keyspace(session):
 
     print("Keyspace created successfully!")
 
-def create_table(session):
+def create_track_events_table(session):
     session.execute("""
     CREATE TABLE IF NOT EXISTS track_streams.track_events (
         id TEXT PRIMARY KEY,
         user_id TEXT,
         track_id TEXT,
         track_name TEXT,
-        artist_name TEXT);
+        artist_name TEXT,
+        timestamp TIMESTAMP);
     """)
 
     print("Table created successfully!")
@@ -30,6 +31,7 @@ def create_enriched_track_events_table(session):
         track_id TEXT,
         track_name TEXT,
         artist_name TEXT,
+        timestamp TIMESTAMP,
         first_name TEXT,
         last_name TEXT,
         gender TEXT,
@@ -49,6 +51,16 @@ def create_metrics_table(session):
         user_id TEXT PRIMARY KEY,
         track_events_count INT);
     """)
+    print("Table created successfully!")
+
+def create_track_event_counts(session):
+    session.execute("""
+    CREATE TABLE IF NOT EXISTS track_streams.track_event_counts (
+        start TIMESTAMP,
+        end TIMESTAMP,
+        track_event_count INT,
+        PRIMARY KEY (start, end));
+    """)
 
     print("Table created successfully!")
 
@@ -60,8 +72,10 @@ if __name__ == "__main__":
     create_keyspace(session)
     session.set_keyspace('track_streams')
 
-    #create_table(session)
+    create_track_events_table(session)
+    create_enriched_track_events_table(session)
     create_metrics_table(session)
+    create_track_event_counts(session)
 
     cluster.shutdown()
     print("Cassandra setup completed!")

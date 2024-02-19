@@ -1,5 +1,4 @@
-import json
-import uuid
+import json, uuid, time
 import requests
 from kafka import KafkaProducer
 
@@ -25,6 +24,7 @@ def format_data(res):
     data['registered_date'] = res['registered']['date']
     data['phone'] = res['phone']
     data['picture'] = res['picture']['medium']
+    data['timestamp'] = int(time.time() * 1000)  # Current time in milliseconds
     return data
 
 def send_to_kafka(topic, data):

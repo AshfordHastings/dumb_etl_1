@@ -78,3 +78,16 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=postgres
+  minio:
+    image: minio/minio
+    container_name: minio
+    volumes:
+      - ./db/minio:/data
+    ports:
+      - "9000:9000"
+      - "9001:9001" # Management Console (optional)
+    environment:
+      MINIO_ACCESS_KEY: minioadmin
+      MINIO_SECRET_KEY: minioadminsecret
+    command: server /data --console-address ":9001"
+    
